@@ -45,20 +45,34 @@ services:
       - "./database:/etc/mysql/conf.d"
     ports:
       - "3307:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    networks:
+      vpcbr:
+        ipv4_address: 172.28.0.104
+    links:
+      - database:database
+    environment:
+      PMA_HOST: database
+      PMA_USER: root
+      PMA_PASSWORD: root
   redis:
     image: redis
     ports:
       - "6379:6379"
     networks:
       vpcbr:
-        ipv4_address: 172.28.0.104
+        ipv4_address: 172.28.0.105
   memcached:
     image: memcached
     ports:
       - "11211:11211"
     networks:
       vpcbr:
-        ipv4_address: 172.28.0.105
+        ipv4_address: 172.28.0.106
 networks:
   vpcbr:
     driver: bridge
